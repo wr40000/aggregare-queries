@@ -1,16 +1,19 @@
 <template>
   <div style="height: 42px; margin-top: 10px">
-    <el-col :span="3">
+    <el-col v-show="false" :span="3">
       <div style="visibility: hidden;">占位</div>
     </el-col>
 
-    <el-col :span="4" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
+    <!-- 原代码 -->
+    <!-- <el-col :span="4" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
       <el-tooltip content="directly return final result">
         <el-button class="select-button" @click="errorBoundClick()">Error-bound model</el-button>
       </el-tooltip>
-    </el-col>
+    </el-col> -->
 
-    <div v-if="errorBoundModelClick === true && model === 'error-bound model'" id="error-bound">
+    <!-- 原代码 -->
+    <!-- <div v-if="errorBoundModelClick === true && model === 'error-bound model'" id="error-bound"> -->
+    <div v-if="false" id="error-bound">
       <el-col :span="3" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
         <el-input v-model="errorBound" style="width: 80%;text-align:center;"></el-input>
         <span style="text-align:center; font-size: 12px;">
@@ -35,18 +38,43 @@
     </div>
 
     <div v-else>
-      <el-col :span="8">
+      <el-col v-if="false" :span="8">
         <div style="visibility: hidden;">占位</div>
       </el-col>
     </div>
 
-    <el-col :span="1">
+    <el-col v-if="false" :span="1">
       <div style="visibility: hidden;">占位</div>
     </el-col>
 
-    <el-col :span="5" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
+    <el-col :span="2" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
       <el-tooltip content="round by round">
-        <el-button class="select-button" @click="chooseInteractive()">Interactive model</el-button>
+        <el-button @click="change_button_focus(true)" :class="['select-button-select', button_focus ? 'select-button-select-active' : '']">同构</el-button>
+        <!-- changeStatus('interactive') -->
+      </el-tooltip>
+    </el-col>
+    <el-col :span="2" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
+      <el-tooltip content="round by round">
+        <el-button @click="change_button_focus(false)" :class="['select-button-select', button_focus ? '' : 'select-button-select-active']" class="select-button">异构</el-button>
+        <!-- changeStatus('interactive') -->
+      </el-tooltip>
+    </el-col>
+
+    <el-dialog :visible.sync="dialogFormVisible">
+      <el-form>
+        <el-form-item label="模块名">
+          <el-input autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button class="el_button_qx" @click="dialogFormVisible = false">取 消</el-button>
+        <el-button class="el_button_qd" type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <el-col :span="4" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
+      <el-tooltip content="round by round">
+        <el-button class="select-button_abc" @click="chooseInteractive()">Interactive model</el-button>
         <!-- changeStatus('interactive') -->
       </el-tooltip>
     </el-col>
@@ -85,6 +113,8 @@ export default {
   },
   data() {
     return {
+      button_focus: null,
+      dialogFormVisible:false,
       model: "",
       status: "",
       oldRound: undefined,
@@ -160,26 +190,95 @@ export default {
         return
       }
       this.$emit("modeSelect", "chooseInteractive")
+    },
+    change_button_focus(value){
+      if(this.button_focus === null){
+        this.button_focus = value
+      }else{
+        this.button_focus = !this.button_focus
+      }
+      this.dialogFormVisible = true
     }
   }
 }
 </script>
 
-<style scoped>
-.select-button {
-  padding: 2px;
+<style lang="scss" scoped>
+.select-button-select-active {
+  /* padding: 2px; */
+  margin: 0 5px 0 5px;
   height: 42px;
   width: 165px;
   font-size: 16px;
   font-weight: 700;
-  color: #fff;
+  letter-spacing: 1px;
+  color: rgb(255, 255, 255) !important;
+  background: #6096B4 !important;
+  transition: all 0.5s linear;
+}
+.select-button-select {
+  /* padding: 2px; */
+  margin: 0 5px 0 5px;
+  height: 42px;
+  width: 165px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #000000;
+  background: rgba(189, 205, 214, 1.0) !important;
+  transition: all 0.5s linear;
 }
 
-.select-button:hover {
-  color: black !important;
+.select-button-select:hover {
+  color: rgb(255, 255, 255) !important;
+  background: #6096B4 !important;
 }
 
-.select-button:focus {
-  color: black !important;
+.select-button-select:focus {
+  color: rgb(255, 255, 255) !important;
+  background: #6096B4 !important;
+}
+.select-button_abc {
+  /* padding: 2px; */
+  margin: 0 5px 0 5px;
+  height: 42px;
+  width: 165px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #000000;
+  background: rgba(189, 205, 214, 1.0) !important;
+  transition: all 0.5s linear;
+}
+
+.select-button_abc:hover {
+  color: rgb(255, 255, 255) !important;
+  background: #6096B4 !important;
+}
+
+.select-button_abc:focus {
+  color: rgb(255, 255, 255) !important;
+  background: #6096B4 !important;
+}
+.search-icon{
+  color: #000000;
+  background: rgba(189, 205, 214, 1.0) !important;
+  .icon{
+    transform: scale(0.7);
+  }
+}
+.search-icon:hover{
+  background: #6096B4 !important;
+}
+.el_button_qx{
+  width: 70px;
+  height: 35px;
+  background-color: #ebe2e296 !important;
+  margin: 0 5px !important;
+}
+.el_button_qd{
+  width: 70px;
+  height: 35px;
+  margin: 0 5px !important;
 }
 </style>

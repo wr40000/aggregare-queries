@@ -1,20 +1,23 @@
 <template>
   <div id="side-bar">
+    <!-- stripe  条纹样式 -->
     <el-table
-      stripe
+      :highlight-current-row="true"
+      class="el_table_container"
       :data="sampleData"
       :height="autoHeight.height"
       :header-cell-style="{'font-size':'20px','color':'#303133','font-weight': '520'}"
       @row-click="clickData"
     >
       <el-table-column
+        class="el_table_column"
         prop="query"
         label="Query Examples"
         align="center"
       >
         <template slot-scope="scope">
-          <el-tooltip effect="dark" disabled:false :content="scope.row.query" placement="top" :open-delay="500">
-            <span>{{ scope.row.query| ellipsis }}</span>
+          <el-tooltip class="el_table_tooltip" effect="dark" disabled:false :content="scope.row.query" placement="top" :open-delay="500">
+            <span class="el_table_tooltip_span">{{ scope.row.query| ellipsis }}</span>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -29,8 +32,8 @@ export default {
   filters: {
     ellipsis(value) {
       if (!value) return "";
-      if (value.length > 30) {
-        return value.slice(0, 30) + "...";
+      if (value.length > 25) {
+        return value.slice(0, 25) + "...";
       }
       return value;
     }
@@ -84,6 +87,49 @@ export default {
 }
 </script>
 
-<style >
+<style lang="scss" scoped>
+  ::v-deep .el-table thead tr th{//表头
+    color: #6096B4 !important;
+    background-color: rgba(189, 205, 214, 1.0)  !important;
+    font-weight: 500 !important;
+    font-size: 22px !important;
+    letter-spacing: 1px;
+  }
+  ::v-deep .el-table{//空白处
+      background-color: rgba(189, 205, 214, 1.0) !important;
+      border-radius: 15px !important;
+      overflow: hidden;
+  }
+  ::v-deep .el-table__row{  //奇数行
+      background-color: rgba(189, 205, 214, 1.0)  !important;
+      letter-spacing: 0.5px !important;
+      font-size: 18px !important;
+      font-weight: 300;
+      color: #000000 !important;
+  }
+  ::v-deep .el-table__row td .cell{  //奇数行
+    display: flex !important;
+    align-items: center !important;
+    justify-content: start !important;
+    padding-left: 20px !important;
+  }
+  ::v-deep .el-table td,.building-top .el-table th.is-leaf {//修改行内线
+    border-bottom:  1px solid rgba(189, 205, 214, 1.0)  !important;
+  }
+  ::v-deep .el-table__body tr.current-row>td {//修改鼠标选中行
+    // background: #EEE9DA !important;
+    background: linear-gradient(90deg,  #6096B4, #93BFCF,#BDCDD6) !important;
+  }
+// 修改头部背景
+.el_table_container{
+  .el_table_column{
 
+    .el_table_tooltip{
+      .el_table_tooltip_span{
+
+      }
+    }
+
+  }
+}
 </style>

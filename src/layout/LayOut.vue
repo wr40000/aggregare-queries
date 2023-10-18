@@ -5,6 +5,7 @@
     </el-aside>
     <el-main class="right-column">
       <head-searcher
+        v-show="false"
         :graph-data="predicate.split(' ')"
         :query="query"
         :sample-queries="sampleQueries"
@@ -37,9 +38,10 @@
         <!--  <el-button @click="changeStatus" style="width: 150px; height: 40px; background-color:lightblue !important;color: black;">Click to show results</el-button>-->
         <!--</div>-->
         <div v-if="round === 0 && click !== 0">
-          A partial knowledge graph that contains the specific entity<span class="entity">
+          <!-- A partial knowledge graph that contains the specific entity<span class="entity">
             {{ predicate.split(" ")[2].substring(0, predicate.split(" ")[0].length) }}
-          </span>.
+          </span>. -->
+          That contains the query node.
           <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
         </div>
         <!--<div v-else-if="round === 0 && click === 0">-->
@@ -366,6 +368,8 @@ export default {
 .left-column {
   width:20%;
   box-shadow: 0 2px 15px rgba(0, 0, 255, .2);
+  border-radius: 15px !important;
+  overflow: hidden;
 }
 .right-column {
   padding-top: 0 !important;

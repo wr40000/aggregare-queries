@@ -9,7 +9,10 @@ module.exports = {
     node: true,
     es6: true,
   },
-  extends: ['plugin:vue/recommended', 'eslint:recommended'],
+  extends: [
+    'plugin:vue/recommended',
+     'eslint:recommended'
+    ],
   rules: {
     'no-unused-vars': 'off',
     'no-unused-labels': 'off',

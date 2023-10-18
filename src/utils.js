@@ -32,6 +32,7 @@ export const options = {
   },
   // 边线配置
   edges: {
+    label: "", // 将边上的标签设置为空
     width: 1,
     color: {
       color: "#848499",
@@ -84,7 +85,10 @@ export const options = {
       //设置两个节点之前的连线的状态
       enabled: true, //默认是true，设置为false之后，两个节点之前的连线始终为直线，不会出现贝塞尔曲线
     },
-    arrows: { to: true }, //箭头指向to
+    arrows: {
+      // to: true //箭头指向to
+      to: {enabled: false}
+    },
   },
   // 布局
   //物理引擎-计算节点之前斥力，进行自动排列的属性
