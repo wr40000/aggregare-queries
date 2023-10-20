@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!answer">
-      <el-container v-for="option in samples" :key="option.value" :style="'cursor:pointer;margin-bottom:20px;height: '+height+'px;float:left; border: 1px solid #eee;width: '+wide+'%'">
+      <el-container v-for="option in samples" :key="option.value" :style="'cursor:pointer;margin-bottom:20px;height: '+height+'px;float:left; border: 1px solid #eee;width: '+ wide +'%'">
         <el-container>
           <el-main style="padding:0">
             <el-table v-if="linejudge===false" empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}"
@@ -31,14 +31,14 @@
       <el-container>
         <el-main style="padding:0">
           <el-table height="45" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}"
-                    :row-style="{height: '0'}" :data="finalAnswer" 
+                    :row-style="{height: '0'}" :data="finalAnswer"
           >
             <el-table-column :label="'All Samples: '+(Object.keys(finalAnswer[0]).length+Object.keys(finalAnswer[1]).length)">
             </el-table-column>
           </el-table>
           <el-row>
             <el-col :span="12">
-              <el-table :show-header="false" empty-text="Null" 
+              <el-table :show-header="false" empty-text="Null"
                         :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}" :row-style="{height: '0'}"
                         :data="finalAnswer[0]" @row-click="clickData"
               >
@@ -50,7 +50,7 @@
               </el-table>
             </el-col>
             <el-col :span="12">
-              <el-table :show-header="false" empty-text="Null" 
+              <el-table :show-header="false" empty-text="Null"
                         :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}" :row-style="{height: '0'}"
                         :data="finalAnswer[1]" @row-click="clickData"
               >
@@ -65,7 +65,7 @@
         </el-main>
       </el-container>
     </el-container>
-    <el-table :cell-style="{'text-align':'center'}" :data="selectsample" :header-cell-style="{whiteSpace:'pre-line',background:'#F4B0B0',color:'#fff',textAlign:'center',height: '0',padding: '0'}" :style="'border:#DCDFE6 solid 1.5px;height:'+height+'px;width:'+wideSample+'%;'">
+    <el-table v-show="false" :cell-style="{'text-align':'center'}" :data="selectsample" :header-cell-style="{whiteSpace:'pre-line',background:'#F4B0B0',color:'#fff',textAlign:'center',height: '0',padding: '0'}" :style="'border:#DCDFE6 solid 1.5px;height:'+height+'px;width:'+wideSample+'%;'">
       <el-table-column prop="samplename" label="Sample Name" :show-overflow-tooltip="true">
         <template slot="header">
           <div>Sample</div>
@@ -128,7 +128,7 @@ export default {
       copyArray: this.options,
       samples: [],
       candidateCopy:[],
-      wide:65,
+      wide:100,
       wideSample:0,
       height:0,
       selectsample: [
@@ -148,7 +148,7 @@ export default {
       this.wideSample = 35
       this.currentround = val
       if(val !== 0)
-        this.wide = 65 / val
+        this.wide = 100 / val
       else
         this.wide = 0
       this.samples = this.copyArray.slice(0,this.currentround)
@@ -215,14 +215,14 @@ export default {
       let lenth = Object.keys(val).length
       let array = [];
       for(let i = 0;i <= Object.keys(val[lenth - 1]).length - 1;i++)//分两列显示
-      {   
+      {
         array.push(val[lenth - 1][i])
         if(i === parseInt(Object.keys(val[lenth - 1]).length / 2))
-        { 
+        {
           console.log(1111)
-          this.finalAnswer.push(array)  
+          this.finalAnswer.push(array)
           array = []
-        }   
+        }
       }
       this.finalAnswer.push(array)
     }

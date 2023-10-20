@@ -90,6 +90,65 @@
         <el-button class="el_button_qd" type="primary" @click="dialogFormVisible_yg = false">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog :visible.sync="dialogFormVisible_cx">
+      <div class="demo-input-suffix">
+        <span style="width: 100px;!important">结构系数：</span>
+        <el-input
+          placeholder="请输入"
+          prefix-icon="el-icon-search"
+          v-model="search_useless.jg">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix">
+        <span style="width: 100px;!important">核心节点：</span>
+        <el-input
+          placeholder="请输入"
+          prefix-icon="el-icon-search"
+          v-model="search_useless.hx">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix">
+        <span style="width: 100px;!important">置信度：</span>
+        <el-input
+          placeholder="请输入"
+          prefix-icon="el-icon-search"
+          v-model="search_useless.zx">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix">
+        <span style="width: 100px;!important">误差界限：</span>
+        <el-input
+          placeholder="请输入"
+          prefix-icon="el-icon-search"
+          v-model="search_useless.wc">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix" v-show="button_focus">
+        <span style="width: 100px;!important">元路径：</span>
+        <el-input
+          placeholder="请输入"
+          prefix-icon="el-icon-search"
+          v-model="search_useless.yl">
+        </el-input>
+      </div>
+      <div class="demo-input-suffix-select">
+        <span style="width: 100px;!important">社区模型：</span>
+        <el-select v-model="value_yg" placeholder="请选择">
+          <el-option
+            v-for="item in options_cx"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </div>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button class="el_button_qx" @click="dialogFormVisible_cx = false">取 消</el-button>
+        <el-button class="el_button_qd" type="primary" @click="dialogFormVisible_cx = false">确 定</el-button>
+      </div>
+    </el-dialog>
 
     <el-col :span="4" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
       <el-tooltip content="round by round">
@@ -102,6 +161,12 @@
         <el-button type="primary" class="search-icon" @click="modeSelect('interactive')">
           <svg t="1646027791988" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2864" width="200" height="200" fill="#fff"><path d="M104 0v1024l816-512z" p-id="2865"></path></svg>
         </el-button>
+      </el-tooltip>
+    </el-col>
+    <el-col :span="4" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
+      <el-tooltip content="round by round">
+        <el-button class="select-button_abc" @click="inputAttr">查询参数</el-button>
+        <!-- changeStatus('interactive') -->
       </el-tooltip>
     </el-col>
   </div>
@@ -174,9 +239,24 @@ export default {
         value: '选项5',
         label: 'Yago'
       }],
+      options_cx: [{
+        value: '选项1',
+        label: 'k-core'
+      }, {
+        value: '选项2',
+        label: 'k-truss'
+      }],
+      search_useless:{
+        jg:null,
+        hx:null,
+        zx:null,
+        wc:null,
+        yl:null,
+      },
       value_yg: '',
       dialogFormVisible_tg:false,
       dialogFormVisible_yg:false,
+      dialogFormVisible_cx:false,
       model: "",
       status: "",
       oldRound: undefined,
@@ -238,6 +318,7 @@ export default {
       }
     },
     modeSelect(mode) {
+      this.control_graphShow.isshow = false
       this.$emit("modeSelect", mode)
       if (this.maxRound !== 0)
         this.status = mode
@@ -271,6 +352,9 @@ export default {
         this.button_focus = !this.button_focus
       }
       this.dialogFormVisible_yg = true
+    },
+    inputAttr(){
+      this.dialogFormVisible_cx = !this.dialogFormVisible_cx
     }
   }
 }
@@ -356,5 +440,21 @@ export default {
   width: 70px;
   height: 35px;
   margin: 0 5px !important;
+}
+.demo-input-suffix{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bolder;
+}
+.demo-input-suffix-select{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bolder;
 }
 </style>
