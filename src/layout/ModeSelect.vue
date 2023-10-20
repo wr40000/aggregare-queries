@@ -123,7 +123,7 @@
           v-model="search_useless.wc">
         </el-input>
       </div>
-      <div class="demo-input-suffix" v-show="button_focus">
+      <div class="demo-input-suffix" v-show="!button_focus">
         <span style="width: 100px;!important">元路径：</span>
         <el-input
           placeholder="请输入"
