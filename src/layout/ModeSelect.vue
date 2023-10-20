@@ -128,6 +128,13 @@ export default {
       default() {
         return ""
       }
+    },
+    // eslint-disable-next-line vue/prop-name-casing
+    control_graphShow: {
+      type: Object,
+      default() {
+        return 0
+      }
     }
   },
   data() {
@@ -236,6 +243,7 @@ export default {
         this.status = mode
     },
     chooseInteractive() {
+      this.control_graphShow.isshow = true
       if (this.maxRound !== 0 && this.model !== "error-bound model") {
         this.status = "interactive"
         this.$message.success("Successfully choose interactive model!")

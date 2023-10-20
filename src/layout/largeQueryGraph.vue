@@ -3,34 +3,45 @@
   <div>
     <!--width,height 画布的宽度，高度。 可以是百分比或像素，一般在dom元素上设置 -->
     <!--<div id="selected-query-graph" class="network" style="width: 100%;height: 200px;border:1px solid #ccc;"></div>-->
-    <div id="query-graph-large" class="network" style="width:100%;height:450px;border:1px solid #ccc;"></div>
+    <div
+      id="query-graph-large"
+      v-show="control_graphShow.isshow"
+      class="network"
+      style="width: 100%; height: 450px; border: 1px solid #ccc"
+    ></div>
   </div>
 </template>
 
 <script>
 import { options } from "utils";
-import Vis from "vis-network/dist/vis-network.min.js"
+import Vis from "vis-network/dist/vis-network.min.js";
 export default {
   name: "LargeQueryGraph",
   props: {
     graphData: {
       type: [Array, Object],
       default() {
-        return []
-      }
+        return [];
+      },
     },
     selectedSample: {
       type: String,
       default() {
-        return ''
-      }
+        return "";
+      },
     },
     dataType: {
       type: Boolean,
       default() {
-        return false
-      }
-    }
+        return false;
+      },
+    },
+    control_graphShow: {
+      type: Object,
+      default() {
+        return 0;
+      },
+    },
   },
   data() {
     return {
@@ -50,32 +61,32 @@ export default {
   watch: {
     graphData(newValue) {
       if (this.dataType === true) {
-        this.edgesArray = []
-        this.nodesArray = []
-        this.tags = []
-        for (let i = 0;i < newValue.length && i < 150;i++) {
-          let from = newValue[i][0]
-          let to = newValue[i][1]
+        this.edgesArray = [];
+        this.nodesArray = [];
+        this.tags = [];
+        for (let i = 0; i < newValue.length && i < 150; i++) {
+          let from = newValue[i][0];
+          let to = newValue[i][1];
           if (this.tags.indexOf(from) === -1) {
-            this.tags.push(from)
-            this.nodesArray.push({id: from, name: newValue[i][2]})
+            this.tags.push(from);
+            this.nodesArray.push({ id: from, name: newValue[i][2] });
           }
           if (this.tags.indexOf(to) === -1) {
-            this.tags.push(to)
-            this.nodesArray.push({id: to, name: newValue[i][4]})
+            this.tags.push(to);
+            this.nodesArray.push({ id: to, name: newValue[i][4] });
           }
-          this.edgesArray.push({from, to, label: newValue[i][3]})
+          this.edgesArray.push({ from, to, label: newValue[i][3] });
         }
-        this.reinitialize()
+        this.reinitialize();
       } else if (this.dataType === false) {
-        this.nodesArray = newValue['nodesArray']
-        this.edgesArray = newValue['edgesArray']
-        this.reinitialize()
+        this.nodesArray = newValue["nodesArray"];
+        this.edgesArray = newValue["edgesArray"];
+        this.reinitialize();
       }
-    }
+    },
   },
   mounted() {
-    this.reinitialize()
+    this.reinitialize();
   },
   methods: {
     reinitialize() {
@@ -86,7 +97,7 @@ export default {
       this.init(this.nodes, this.edges);
       this.network.moveTo({ scale: 0.4 });
       let param = { nodes: this.nodesArray, edges: this.edgesArray };
-      this.addNetworkParams(param)
+      this.addNetworkParams(param);
     },
     // 初始化network
     init(nodes, edges) {
@@ -96,15 +107,15 @@ export default {
       this.data = {
         nodes: nodes,
         edges: edges,
-      }
+      };
       // 6.初始化网络拓扑图
-      this.network = new Vis.Network(this.container, this.data, this.options)
+      this.network = new Vis.Network(this.container, this.data, this.options);
     },
     //扩展节点 增加nodes和edges集合参数
     addNetworkParams(param) {
       //添加节点
       for (let i = 0; i < param.nodes.length; i++) {
-        let node = param.nodes[i]
+        let node = param.nodes[i];
         this.nodes.add({
           label: node.name,
           ...node,
@@ -119,7 +130,7 @@ export default {
       }
     },
   },
-}
+};
 </script>
 
 <style scoped>

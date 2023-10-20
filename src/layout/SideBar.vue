@@ -58,6 +58,12 @@ export default {
       default() {
         return []
       }
+    },
+    control_graphShow: {
+      type: Object,
+      default() {
+        return 0
+      }
     }
   },
   data() {
@@ -83,6 +89,7 @@ export default {
   },
   methods: {
     clickData(row) {
+      this.control_graphShow = false
       this.cardInfoList = row
       this.cardInfoList.flag = 1
       this.$emit('choosedQuery',this.cardInfoList, 1);

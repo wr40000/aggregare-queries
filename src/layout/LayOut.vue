@@ -1,7 +1,7 @@
 <template>
   <el-container class="contain">
     <el-aside class="left-column">
-      <side-bar :sample-queries="sampleQueries" @choosedQuery="choosedQuery"></side-bar>
+      <side-bar :control_graphShow="control_graphShow" :sample-queries="sampleQueries" @choosedQuery="choosedQuery"></side-bar>
     </el-aside>
     <el-main class="right-column">
       <head-searcher
@@ -17,7 +17,7 @@
       >
         <miniQueryGraph :query-type="miniGraphType" :graph-data="predicate.split(' ')"></miniQueryGraph>
       </head-searcher>
-      <ModeSelect :query="query" :round="round" :max-round="maxRound" @modeSelect="modeSelect"></ModeSelect>
+      <ModeSelect :query="query" :control_graphShow="control_graphShow" :round="round" :max-round="maxRound" @modeSelect="modeSelect"></ModeSelect>
       <div style="margin-top:15px">
         <results-table :round="round" :table-data="tableData"></results-table>
       </div>
@@ -37,17 +37,21 @@
         <!--<div v-if="round === maxRound && round !== 0 && !status">-->
         <!--  <el-button @click="changeStatus" style="width: 150px; height: 40px; background-color:lightblue !important;color: black;">Click to show results</el-button>-->
         <!--</div>-->
-        <div v-if="round === 0 && click !== 0">
+        <!-- 原代码 -->
+        <!-- <div v-if="round === 0 && click !== 0"> -->
+        <div>
           <!-- A partial knowledge graph that contains the specific entity<span class="entity">
             {{ predicate.split(" ")[2].substring(0, predicate.split(" ")[0].length) }}
           </span>. -->
           That contains the query node.
-          <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
+          <largeQueryGraph :control_graphShow="control_graphShow" :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
         </div>
         <!--<div v-else-if="round === 0 && click === 0">-->
         <!--  A knowledge graph snapshot-->
         <!--  <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>-->
         <!--</div>-->
+        <!-- 下面这行添加用于配合v-else-if -->
+        <div v-if="round === 0 && click !== 0"></div>
         <div v-else-if="round >= 1">
           A random sample of
           <span class="entity">
@@ -95,6 +99,8 @@ export default {
   },
   data() {
     return {
+      // 控制图是否显示
+      control_graphShow:{isshow:false},
       sampleQueries: sampleQueries,
       candidateAnswers: [],
       queryData: {},
