@@ -11,8 +11,8 @@ module.exports = {
   },
   extends: [
     'plugin:vue/recommended',
-     'eslint:recommended'
-    ],
+    'eslint:recommended'
+  ],
   rules: {
     'no-unused-vars': 'off',
     'no-unused-labels': 'off',

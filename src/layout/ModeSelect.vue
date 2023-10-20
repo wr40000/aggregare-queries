@@ -49,26 +49,45 @@
 
     <el-col :span="2" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
       <el-tooltip content="round by round">
-        <el-button @click="change_button_focus(true)" :class="['select-button-select', button_focus ? 'select-button-select-active' : '']">同构</el-button>
+        <el-button :class="['select-first', (button_focus_click == null || button_focus_click == true) ? '' : 'select-button-select', button_focus_click ? (button_focus ? 'select-button-select-active' : '') : '']" @click="change_button_focus(true)">同构</el-button>
         <!-- changeStatus('interactive') -->
       </el-tooltip>
     </el-col>
     <el-col :span="2" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
       <el-tooltip content="round by round">
-        <el-button @click="change_button_focus(false)" :class="['select-button-select', button_focus ? '' : 'select-button-select-active']" class="select-button">异构</el-button>
+        <el-button :class="['select-first', (button_focus_click == null || button_focus_click == true) ? '' : 'select-button-select', button_focus_click ? (button_focus ? '' : 'select-button-select-active') : '']" @click="change_button_focus_yg(false)">异构</el-button>
         <!-- changeStatus('interactive') -->
       </el-tooltip>
     </el-col>
 
-    <el-dialog :visible.sync="dialogFormVisible">
-      <el-form>
-        <el-form-item label="模块名">
-          <el-input autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
+    <el-dialog :visible.sync="dialogFormVisible_tg">
+      <el-select v-model="value_tg" placeholder="请选择">
+        <el-option
+          v-for="item in options_tg"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
       <div slot="footer" class="dialog-footer">
-        <el-button class="el_button_qx" @click="dialogFormVisible = false">取 消</el-button>
-        <el-button class="el_button_qd" type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button class="el_button_qx" @click="dialogFormVisible_tg = false">取 消</el-button>
+        <el-button class="el_button_qd" type="primary" @click="dialogFormVisible_tg = false">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog :visible.sync="dialogFormVisible_yg">
+      <el-select v-model="value_yg" placeholder="请选择">
+        <el-option
+          v-for="item in options_yg"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+      <div slot="footer" class="dialog-footer">
+        <el-button class="el_button_qx" @click="dialogFormVisible_yg = false">取 消</el-button>
+        <el-button class="el_button_qd" type="primary" @click="dialogFormVisible_yg = false">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -114,7 +133,43 @@ export default {
   data() {
     return {
       button_focus: null,
-      dialogFormVisible:false,
+      button_focus_click: null,
+      options_tg: [{
+        value: '选项1',
+        label: 'facebook'
+      }, {
+        value: '选项2',
+        label: 'Github'
+      }, {
+        value: '选项3',
+        label: 'twitch'
+      }, {
+        value: '选项4',
+        label: 'LiveJournal'
+      }, {
+        value: '选项5',
+        label: 'Twitter-2010'
+      }],
+      value_tg: '',
+      options_yg: [{
+        value: '选项1',
+        label: 'DBLP'
+      }, {
+        value: '选项2',
+        label: 'IMDB'
+      }, {
+        value: '选项3',
+        label: 'Dbpedia'
+      }, {
+        value: '选项4',
+        label: 'Freebase'
+      }, {
+        value: '选项5',
+        label: 'Yago'
+      }],
+      value_yg: '',
+      dialogFormVisible_tg:false,
+      dialogFormVisible_yg:false,
       model: "",
       status: "",
       oldRound: undefined,
@@ -192,12 +247,22 @@ export default {
       this.$emit("modeSelect", "chooseInteractive")
     },
     change_button_focus(value){
+      this.button_focus_click = true
       if(this.button_focus === null){
         this.button_focus = value
       }else{
         this.button_focus = !this.button_focus
       }
-      this.dialogFormVisible = true
+      this.dialogFormVisible_tg = true
+    },
+    change_button_focus_yg(value){
+      this.button_focus_click = true
+      if(this.button_focus === null){
+        this.button_focus = value
+      }else{
+        this.button_focus = !this.button_focus
+      }
+      this.dialogFormVisible_yg = true
     }
   }
 }
@@ -213,10 +278,13 @@ export default {
   font-weight: 700;
   letter-spacing: 1px;
   color: rgb(255, 255, 255) !important;
-  background: #6096B4 !important;
+  background: rgb(0, 0, 0) !important;
   transition: all 0.5s linear;
 }
 .select-button-select {
+  border: none;
+}
+.select-first{
   /* padding: 2px; */
   margin: 0 5px 0 5px;
   height: 42px;
@@ -224,19 +292,19 @@ export default {
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #000000;
-  background: rgba(189, 205, 214, 1.0) !important;
   transition: all 0.5s linear;
+  color: #ffffff !important;
+  background: rgba(189, 205, 214, 1.0);
 }
 
 .select-button-select:hover {
-  color: rgb(255, 255, 255) !important;
+  color: rgb(0, 0, 0) !important;
   background: #6096B4 !important;
 }
 
 .select-button-select:focus {
   color: rgb(255, 255, 255) !important;
-  background: #6096B4 !important;
+  background: #7d60b4 !important;
 }
 .select-button_abc {
   /* padding: 2px; */

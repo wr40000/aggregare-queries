@@ -4,7 +4,7 @@
     <el-table
       :highlight-current-row="true"
       class="el_table_container"
-      :data="sampleData"
+      :data="sampleData.slice(0, 6)"
       :height="autoHeight.height"
       :header-cell-style="{'font-size':'20px','color':'#303133','font-weight': '520'}"
       @row-click="clickData"
@@ -17,7 +17,15 @@
       >
         <template slot-scope="scope">
           <el-tooltip class="el_table_tooltip" effect="dark" disabled:false :content="scope.row.query" placement="top" :open-delay="500">
-            <span class="el_table_tooltip_span">{{ scope.row.query| ellipsis }}</span>
+            <span class="el_table_tooltip_span">
+              <!-- {{ scope.row.query| ellipsis }} -->
+              {{ (scope.row.query == 'How many astronaut from Russia' ? 'Attribute-driven查询算法' : '')| ellipsis }}
+              {{ (scope.row.query == 'How many films in Danish' ? 'Attributed community查询算法' : '')| ellipsis }}
+              {{ (scope.row.query == 'How many politicians in Methodism' ? 'Vertex-centric查询算法' : '')| ellipsis }}
+              {{ (scope.row.query == 'How many companies in Munich' ? 'Sampling-estimation查询算法' : '')| ellipsis }}
+              {{ (scope.row.query == 'How many films produced by Hal Roach' ? 'Enumeration-based查询算法' : '')| ellipsis }}
+              {{ (scope.row.query == 'How many books written by Danielle Steel' ? 'Size-bounded查询算法' : '')| ellipsis }}
+            </span>
           </el-tooltip>
         </template>
       </el-table-column>
