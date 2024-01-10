@@ -102,6 +102,7 @@
     >
       <el-tooltip content="round by round">
         <el-button
+          :style="computedStyleTG"
           :class="[
             'select-first',
             button_focus_click == null || button_focus_click == true
@@ -131,6 +132,7 @@
     >
       <el-tooltip content="round by round">
         <el-button
+          :style="computedStyleYG"
           :class="[
             'select-first',
             button_focus_click == null || button_focus_click == true
@@ -442,7 +444,21 @@ export default {
       errorBoundModelClick: false,
       errorBound: "",
       confidenceLevel: "",
+      initStyle: {
+        background: "#fff !important",
+        color: "#000000 !important",
+      },
     };
+  },
+  computed: {
+    computedStyleTG() {
+      //点击的是同构
+      return this.button_focus ? "" : this.initStyle;
+    },
+    computedStyleYG() {
+      //点击的是异构
+      return !this.button_focus && this.button_focus_click ? "" : this.initStyle;
+    },
   },
   watch: {
     query: {
@@ -557,6 +573,7 @@ export default {
 .select-button-select {
   border: none;
 }
+
 .select-first {
   /* padding: 2px; */
   margin: 0 5px 0 5px;
@@ -575,10 +592,10 @@ export default {
   background: #6096b4 !important;
 }
 
-.select-button-select:focus {
-  color: rgb(255, 255, 255) !important;
-  background: #7d60b4 !important;
-}
+// .select-button-select:focus {
+//   color: rgb(255, 255, 255) !important;
+//   background: #7d60b4 !important;
+// }
 .select-button_abc {
   /* padding: 2px; */
   margin: 0 5px 0 5px;
