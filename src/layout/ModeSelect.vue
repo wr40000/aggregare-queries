@@ -282,7 +282,8 @@
     >
       <el-tooltip content="round by round">
         <el-button class="select-button_abc" @click="chooseInteractive()">
-          Interactive model
+          <!-- Interactive model -->
+          开始运行
         </el-button>
         <!-- changeStatus('interactive') -->
       </el-tooltip>
@@ -330,6 +331,22 @@
       <el-tooltip content="round by round">
         <el-button class="select-button_abc" @click="inputAttr">
           查询参数
+        </el-button>
+        <!-- changeStatus('interactive') -->
+      </el-tooltip>
+    </el-col>
+    <el-col
+      :span="2"
+      style="
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+      "
+    >
+      <el-tooltip v-show="this.listViewShow" content="round by round">
+        <el-button class="select-button_abc">
+          列表视图
         </el-button>
         <!-- changeStatus('interactive') -->
       </el-tooltip>
@@ -445,9 +462,10 @@ export default {
       errorBound: "",
       confidenceLevel: "",
       initStyle: {
-        background: "#fff !important",
+        background: "#ebebeb !important",
         color: "#000000 !important",
       },
+      listViewShow:false
     };
   },
   computed: {
@@ -514,6 +532,7 @@ export default {
       }
     },
     modeSelect(mode) {
+      this.listViewShow = true
       this.control_graphShow.isshow = false;
       this.$emit("modeSelect", mode);
       if (this.maxRound !== 0) this.status = mode;
@@ -602,8 +621,9 @@ export default {
   height: 42px;
   width: 165px;
   font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: 700;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   color: #000000;
   background: rgba(189, 205, 214, 1) !important;
   transition: all 0.5s linear;
